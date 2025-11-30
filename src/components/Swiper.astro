@@ -21,7 +21,7 @@ const {
 
 <!-- Slider main container -->
 <astro-swiper
-  class={`swiper ${uniqueClass} ${className}`}
+  class:list={['swiper', uniqueClass, className]}
   {...props}
   data-options={JSON.stringify(options)}
   data-linktothumbuniqueclass={linkToThumbUniqueClass}
