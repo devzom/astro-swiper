@@ -3,15 +3,14 @@
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <a href="https://astro.build/" target="_blank"><img height="70" src="images/astro-logo.png"></a>
 
-  <h1>Astro Swiper</h1>
+  # Astro Swiper
 
-  <p>
-    Astro Swiper is the native Astro component for
-    <a href="https://github.com/nolimits4web/swiper">Swiper</a>,
-    dedicated to slides / carousel / photo swiper.
-  </p>
 
-  [Demo](https://pascal-brand38.github.io/astro-dev/packages/astro-swiper)
+  Astro Swiper is the native Astro component for
+  <a href="https://github.com/nolimits4web/swiper">Swiper</a>,
+  dedicated to slides / carousel / photo swiper.
+
+  # [Demo](https://pascal-brand38.github.io/astro-dev/packages/astro-swiper)
 
   <a href="https://pascal-brand38.github.io/astro-dev/packages/astro-swiper" target="_blank">
     <img src="images/astro-swiper.gif">
@@ -22,6 +21,11 @@
 <br>
 <br>
 
+# Help needed
+
+Do you need help to integrate ```astro-swiper``` in your
+astro template / component? Please
+[fill a github issue](https://github.com/pascal-brand38/astro-swiper/issues/new?template=help-needed.md)
 
 
 <br>
