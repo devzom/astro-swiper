@@ -6,18 +6,21 @@ import 'swiper/css/bundle'
 
 import type { HTMLAttributes } from 'astro/types'
 
-type Props = HTMLAttributes<"div">
+interface Props extends HTMLAttributes<"div"> {
+  /** add the default swiper class, true by default */
+  addDefaultClass?: boolean,
+}
 
 const {
   class: className = '',
+  addDefaultClass = true,
   ...props
 } = Astro.props;
-
 
 ---
 
 <div
-  class:list={['swiper-button-prev', className]}
+  class:list={[(addDefaultClass ? 'swiper-button-prev' : ''), className]}
   {...props}>
     <slot/>
 </div>
