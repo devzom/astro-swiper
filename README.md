@@ -24,8 +24,12 @@
 # Help needed
 
 Do you need help to integrate ```astro-swiper``` in your
-astro template / component? Please
-[fill a github issue](https://github.com/pascal-brand38/astro-swiper/issues/new?template=help-needed.md)
+astro template / component? 2 ways to ask:
+* mention me with ```@pascal-brand38``` in an issue on your own github repo
+* or [fill a github issue](https://github.com/pascal-brand38/astro-swiper/issues/new?template=help-needed.md)
+  in ```astro-swiper``` github
+
+I'll be happy to help!
 
 
 <br>
