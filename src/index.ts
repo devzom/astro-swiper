@@ -42,6 +42,17 @@ declare class AstroSwiper extends HTMLElement {
   astroSwiper: Swiper | undefined
 }
 
+/** @deprecated: use getSwiperFromUniqueSelector() instead */
 export function getSwiperFromUniqueClass(uniqueClass: string): Swiper | undefined {
-  return (document.querySelector(`.${uniqueClass}`) as AstroSwiper)?.astroSwiper
+  return getSwiperFromUniqueSelector(`.${uniqueClass}`)
+}
+
+/** Retrieve the swiper instance from the unique selector provided
+ * when creating the swiper
+ * @param uniqueSelector the unique selector provided when creating the swiper,
+ * @example const swiper = getSwiperFromUniqueSelector('.my-unique-class')
+ *          const swiper = getSwiperFromUniqueSelector('#my-unique-id')
+ */
+export function getSwiperFromUniqueSelector(uniqueSelector: string): Swiper | undefined {
+  return (document.querySelector(uniqueSelector) as AstroSwiper)?.astroSwiper
 }
