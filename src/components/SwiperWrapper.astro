@@ -2,25 +2,18 @@
 // Copyright (c) Pascal Brand
 // MIT License
 
-import 'swiper/css/bundle'
+import 'swiper/css/bundle';
 
-import type { HTMLAttributes } from 'astro/types'
+import type { HTMLAttributes } from 'astro/types';
 
-interface Props extends HTMLAttributes<"div"> {
+interface Props extends HTMLAttributes<'div'> {
   /** add the default swiper class, true by default */
-  addDefaultClass?: boolean,
+  addDefaultClass?: boolean;
 }
 
-const {
-  class: className = '',
-  addDefaultClass = true,
-  ...props
-} = Astro.props;
-
+const { class: className = '', addDefaultClass = true, ...props } = Astro.props;
 ---
 
-<div
-  class:list={[(addDefaultClass ? 'swiper-wrapper' : ''), className]}
-  {...props}>
-    <slot/>
+<div class:list={[addDefaultClass ? 'swiper-wrapper' : '', className]} {...props}>
+  <slot />
 </div>
