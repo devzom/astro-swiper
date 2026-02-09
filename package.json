@@ -3,6 +3,11 @@
   "version": "1.4.0",
   "description": "Astro component for swiper, dedicated to slider / carousel / photo swiper / slide, including thumbnails",
   "main": "index.js",
+  "scripts": {
+    "format": "biome format --write && prettier -w \"**/*.astro\"",
+    "lint": "biome lint",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/pascal-brand38/astro-swiper.git"
@@ -19,14 +24,27 @@
     "src/**"
   ],
   "devDependencies": {
+    "@biomejs/biome": "^2.3.14",
     "@types/node": "^24.0.0",
     "astro": "^5.9.2",
+    "prettier": "^3.8.1",
+    "prettier-plugin-astro": "^0.14.1",
     "typescript": "^5.8.3"
   },
   "keywords": [
     "swiper",
-    "withastro", "astro-component", "image",
-    "carousel", "swiper", "slider", "slideshow", "gallery", "lightweight", "touch", "responsive", "thumbnail"
+    "withastro",
+    "astro-component",
+    "image",
+    "carousel",
+    "swiper",
+    "slider",
+    "slideshow",
+    "gallery",
+    "lightweight",
+    "touch",
+    "responsive",
+    "thumbnail"
   ],
   "dependencies": {
     "swiper": "^12.0.0"
