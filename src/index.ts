@@ -28,6 +28,15 @@ export interface AstroSwiperType extends HTMLAttributes<'div'> {
 
   /** add the default swiper class, true by default */
   addDefaultClass?: boolean;
+
+  /** useCustomElement, if true, the component will be rendered as a custom element, otherwise as a div.
+   * This option is true by default to keep legacy.
+   * It is there to be as close as possible to the original swiper structure, that is a div with class "swiper"
+   * and not a custom element.
+   * It is also to avoid issues with some swiper modules that are looking for the "swiper" class on the parent
+   * element, and not on the custom element.
+   */
+  useCustomElement?: boolean;
 }
 
 /** astro components exported, used to create a swiper */
@@ -57,5 +66,26 @@ export function getSwiperFromUniqueClass(uniqueClass: string): Swiper | undefine
  *          const swiper = getSwiperFromUniqueSelector('#my-unique-id')
  */
 export function getSwiperFromUniqueSelector(uniqueSelector: string): Swiper | undefined {
-  return (document.querySelector(uniqueSelector)?.firstElementChild as AstroSwiper)?.astroSwiper;
+  let swiperEl: AstroSwiper = document.querySelector(uniqueSelector) as AstroSwiper;
+  if (!swiperEl) {
+    console.warn(`astro-swiper: no element found with unique selector "${uniqueSelector}"`);
+    return undefined;
+  }
+  if (swiperEl.astroSwiper) {
+    // this is the custom element that contains the swiper instance, return it
+    return swiperEl.astroSwiper;
+  }
+
+  // this a div, with 1st child being the custom element that contains the swiper instance
+  swiperEl = swiperEl.firstElementChild as AstroSwiper;
+  if (!swiperEl) {
+    console.warn(`astro-swiper: no element found with unique selector "${uniqueSelector}"`);
+    return undefined;
+  }
+  if (swiperEl.astroSwiper) {
+    return swiperEl.astroSwiper;
+  }
+
+  console.warn(`astro-swiper: no element found with unique selector "${uniqueSelector}"`);
+  return undefined;
 }

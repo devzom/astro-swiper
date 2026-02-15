@@ -13,19 +13,34 @@ const {
   class: className = null,
   linkToThumbUniqueClass = null,
   addDefaultClass = true,
+  useCustomElement = true,
   ...props
 } = Astro.props;
 ---
 
 <!-- Slider main container -->
-<div class:list={[addDefaultClass ? 'swiper' : '', uniqueClass, className]} {...props} >
-  <astro-swiper
-    data-options={JSON.stringify(options)}
-    data-linktothumbuniqueclass={linkToThumbUniqueClass}
-    data-uniqueclass={uniqueClass}
-  />
-  <slot />
-</div>
+{
+  useCustomElement ? (
+    <astro-swiper
+      data-options={JSON.stringify(options)}
+      data-linktothumbuniqueclass={linkToThumbUniqueClass}
+      data-uniqueclass={uniqueClass}
+      class:list={[addDefaultClass ? 'swiper' : '', uniqueClass, className]}
+      {...props}
+    >
+      <slot />
+    </astro-swiper>
+  ) : (
+    <div class:list={[addDefaultClass ? 'swiper' : '', uniqueClass, className]} {...props} >
+      <astro-swiper
+        data-options={JSON.stringify(options)}
+        data-linktothumbuniqueclass={linkToThumbUniqueClass}
+        data-uniqueclass={uniqueClass}
+      />
+      <slot />
+    </div>
+  )
+}
 
 <script>
   import Swiper from 'swiper/bundle';
