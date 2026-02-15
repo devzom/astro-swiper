@@ -57,5 +57,5 @@ export function getSwiperFromUniqueClass(uniqueClass: string): Swiper | undefine
  *          const swiper = getSwiperFromUniqueSelector('#my-unique-id')
  */
 export function getSwiperFromUniqueSelector(uniqueSelector: string): Swiper | undefined {
-  return (document.querySelector(uniqueSelector) as AstroSwiper)?.astroSwiper;
+  return (document.querySelector(uniqueSelector)?.firstElementChild as AstroSwiper)?.astroSwiper;
 }
