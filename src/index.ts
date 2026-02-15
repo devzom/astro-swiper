@@ -25,6 +25,9 @@ export interface AstroSwiperType extends HTMLAttributes<'div'> {
    * the unique class of the thumbnail slider
    */
   linkToThumbUniqueClass?: string;
+
+  /** add the default swiper class, true by default */
+  addDefaultClass?: boolean;
 }
 
 /** astro components exported, used to create a swiper */

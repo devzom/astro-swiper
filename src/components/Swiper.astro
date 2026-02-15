@@ -12,12 +12,13 @@ const {
   uniqueClass = `astro-swiper-${Math.random().toString(36).slice(2, 11)}`,
   class: className = null,
   linkToThumbUniqueClass = null,
+  addDefaultClass = true,
   ...props
 } = Astro.props;
 ---
 
 <!-- Slider main container -->
-<div class:list={['swiper', uniqueClass, className]} {...props} >
+<div class:list={[addDefaultClass ? 'swiper' : '', uniqueClass, className]} {...props} >
   <astro-swiper
     data-options={JSON.stringify(options)}
     data-linktothumbuniqueclass={linkToThumbUniqueClass}
