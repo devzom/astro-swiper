@@ -17,15 +17,14 @@ const {
 ---
 
 <!-- Slider main container -->
-<astro-swiper
-  class:list={['swiper', uniqueClass, className]}
-  {...props}
-  data-options={JSON.stringify(options)}
-  data-linktothumbuniqueclass={linkToThumbUniqueClass}
-  data-uniqueclass={uniqueClass}
->
+<div class:list={['swiper', uniqueClass, className]} {...props} >
+  <astro-swiper
+    data-options={JSON.stringify(options)}
+    data-linktothumbuniqueclass={linkToThumbUniqueClass}
+    data-uniqueclass={uniqueClass}
+  />
   <slot />
-</astro-swiper>
+</div>
 
 <script>
   import Swiper from 'swiper/bundle';
