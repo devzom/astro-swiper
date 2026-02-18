@@ -91,6 +91,35 @@ Please check the [online doc](https://pascal-brand38.github.io/astro-dev/package
 
 Full code is provided.
 
+You can also look at how others are using ```astro-swiper``` in public github repo:
+* the famous astro template [astroplate](https://github.com/zeon-studio/astroplate) in the
+  [testominial section](https://zeon.studio/preview?project=astroplate)
+  (cf. ***What Users Are Saying About Astroplate***):
+  autoplay, pagination and breakpoints are used
+* the popular astro template [pinwheel-astro](https://github.com/themefisher/pinwheel-astro)
+  is using ```astro-swiper``` in several places:
+  [testimonial section](https://pinwheel-astro.vercel.app/),
+  [signin](https://pinwheel-astro.vercel.app/signin),
+  [password reset](https://pinwheel-astro.vercel.app/password-reset) and
+  [signup](https://pinwheel-astro.vercel.app/signup) pages. Pagination and
+  breakpoints are used.
+* the well-known astro template [hello-astro](https://github.com/hellotham/hello-astro)
+  uses swiper in the [carousel page](https://hellotham.github.io/hello-astro/carousel/)
+  as well as in [blog article](https://hellotham.github.io/hello-astro/blog/2022-08-19-sample-carousel/).
+  It makes use of navigation arrow, pagination and autoplay.
+* [bigspring-light-astro](https://github.com/themefisher/bigspring-light-astro) astro theme is
+  also using ```astro-swiper``` in several places in the
+  [main page](https://tf-bigspring-light-astro.vercel.app/) with customized pagination.
+* [Women Techmakers organized by GDG Madrid](https://github.com/wtmgdgmadrid/wtmgdgmadrid.github.io)
+  is using pagination and autoplay at different places in their
+  [page](http://wtmgdgmadrid.github.io/)
+* [kando-menu](https://github.com/make-42/kando-menu.github.io) is using ```astro-swiper```
+  with pagination, card effect, and coverflow effect as displayed in [kando.menu](https://kando.menu/)
+* [astroimagej](https://github.com/AstroImageJ/astroimagej) is pagination with progress bar
+* ... and many others such as
+[Cinerama](https://github.com/RaiderMr3003/Cinerama) and
+[pfm-landing-page](https://github.com/RichardAgain/pfm-landing-page)
+using ```astro-swiper``` in the hero section
 
 # Support astro-swiper
 
