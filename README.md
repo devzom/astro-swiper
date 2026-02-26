@@ -115,7 +115,7 @@ You can also look at how others are using ```astro-swiper``` in public github re
   [page](http://wtmgdgmadrid.github.io/)
 * [kando-menu](https://github.com/make-42/kando-menu.github.io) is using ```astro-swiper```
   with pagination, card effect, and coverflow effect as displayed in [kando.menu](https://kando.menu/)
-* [astroimagej](https://github.com/AstroImageJ/astroimagej) is pagination with progress bar
+* [astroimagej](https://github.com/AstroImageJ/astroimagej) is using pagination with progress bar
 * ... and many others such as
 [Cinerama](https://github.com/RaiderMr3003/Cinerama) and
 [pfm-landing-page](https://github.com/RichardAgain/pfm-landing-page)
