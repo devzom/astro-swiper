@@ -11,9 +11,9 @@ interface Props extends HTMLAttributes<'div'> {
   addDefaultClass?: boolean;
 }
 
-const { class: className = '', addDefaultClass = true, ...props } = Astro.props;
+const { class: className = null, addDefaultClass = true, ...props } = Astro.props;
 ---
 
-<div class:list={[addDefaultClass ? 'swiper-button-next' : '', className]} {...props}>
+<div class:list={[addDefaultClass ? 'swiper-button-next' : null, className]} {...props}>
   <slot />
 </div>
