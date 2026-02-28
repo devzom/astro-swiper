@@ -1,16 +1,18 @@
-<div align="center" style="padding: 1rem;">
+<div align="center" style="background-color: dark-grey; padding: 1rem;">
   <a href="https://swiperjs.com" target="_blank"><img width="70" width="auto" src="images/swiper-logo.svg"></a>
   <a href="https://astro.build/" target="_blank"><img height="68" width="auto" src="images/astro-logo.svg"></a>
+  
+  # Astro Swiper
 
-# Astro Swiper
+> Astro Swiper - native component for [Swiper](https://github.com/nolimits4web/swiper).
+> Use for slides, carousel, photo swiper.
 
-Astro Swiper - native component for <a href="https://github.com/nolimits4web/swiper">Swiper</a>. <br/>Use case: slides, carousel, photo swiper.
-
-<img src="images/astro-swiper.gif" />
+  <img src="images/astro-swiper.gif" />
 
 ## [Check demo](https://pascal-brand38.github.io/astro-dev/packages/astro-swiper)
 
 </div>
+
 ## Installation
 
 ```bash
@@ -21,7 +23,7 @@ bun install astro-swiper
 
 ## Usage
 
-Code example of a carousel with loop, 3 pictures, 1 second interval:
+Carousel with loop, 3 pictures, 1 second interval:
 
 ```jsx
 ---
@@ -65,8 +67,8 @@ import { Swiper, SwiperWrapper, SwiperSlide } from "astro-swiper";
 
 ## Examples
 
-Check the [online doc](https://pascal-brand38.github.io/astro-dev/packages/astro-swiper) for a fullset of examples, including navigation and thumbnails.
-Full code is provided.
+Check the [online doc](https://pascal-brand38.github.io/astro-dev/packages/astro-swiper) for a fullset of examples, including navigation and thumbnails. Full code is provided.
+
 You can also look at how others are using `astro-swiper` in public github repo:
 
 - the famous astro template [astroplate](https://github.com/zeon-studio/astroplate) in the
