@@ -39,7 +39,7 @@ export interface AstroSwiperType extends HTMLAttributes<'div'> {
   useCustomElement?: boolean;
 }
 
-/** astro components exported, used to create a swiper */
+/** Astro components exports, used to create a swiper */
 export { default as Swiper } from './components/Swiper.astro';
 export { default as SwiperButtonNext } from './components/SwiperButtonNext.astro';
 export { default as SwiperButtonPrev } from './components/SwiperButtonPrev.astro';
@@ -48,44 +48,46 @@ export { default as SwiperScrollbar } from './components/SwiperScrollbar.astro';
 export { default as SwiperSlide } from './components/SwiperSlide.astro';
 export { default as SwiperWrapper } from './components/SwiperWrapper.astro';
 
-declare class AstroSwiper extends HTMLElement {
-  /** pointer to the swiper structure that was created using "new",
-   *  even when not initialized */
+/** pointer to the swiper structure that was created using "new", even when not initialized */
+export class AstroSwiper extends HTMLElement {
   astroSwiper: Swiper | undefined;
 }
 
+// !TODO Deprecate fully in next major version
 /** @deprecated: use getSwiperFromUniqueSelector() instead */
 export function getSwiperFromUniqueClass(uniqueClass: string): Swiper | undefined {
   return getSwiperFromUniqueSelector(`.${uniqueClass}`);
 }
 
-/** Retrieve the swiper instance from the unique selector provided
- * when creating the swiper
+/** Retrieve the swiper instance from the unique selector provided when creating the swiper
  * @param uniqueSelector the unique selector provided when creating the swiper,
  * @example const swiper = getSwiperFromUniqueSelector('.my-unique-class')
  *          const swiper = getSwiperFromUniqueSelector('#my-unique-id')
  */
 export function getSwiperFromUniqueSelector(uniqueSelector: string): Swiper | undefined {
-  let swiperEl: AstroSwiper = document.querySelector(uniqueSelector) as AstroSwiper;
-  if (!swiperEl) {
-    console.warn(`astro-swiper: no element found with unique selector "${uniqueSelector}"`);
-    return undefined;
-  }
-  if (swiperEl.astroSwiper) {
-    // this is the custom element that contains the swiper instance, return it
-    return swiperEl.astroSwiper;
+  if (!uniqueSelector.includes('.') || !uniqueSelector.includes('#')) {
+    console.warn('Used selector doesn\'t contain class or ID selector sign');
   }
 
-  // this a div, with 1st child being the custom element that contains the swiper instance
-  swiperEl = swiperEl.firstElementChild as AstroSwiper;
-  if (!swiperEl) {
-    console.warn(`astro-swiper: no element found with unique selector "${uniqueSelector}"`);
+  const element = document.querySelector(uniqueSelector);
+
+  if (!element) {
+    console.warn(`astro-swiper: no element found with selector "${uniqueSelector}"`);
     return undefined;
   }
-  if (swiperEl.astroSwiper) {
-    return swiperEl.astroSwiper;
-  }
 
-  console.warn(`astro-swiper: no element found with unique selector "${uniqueSelector}"`);
+  // Check if element is the customElement with astroSwiper property
+  const customElement = element as AstroSwiper;
+  if (customElement.astroSwiper) return customElement.astroSwiper;
+
+  // Check if element is a <div/> wrapper with customElement child
+  const childElement = element.firstElementChild as AstroSwiper;
+  if (childElement?.astroSwiper) return childElement.astroSwiper;
+
+  console.warn(
+    `astro-swiper: element found with selector "${uniqueSelector}" but no swiper instance found. ` +
+    `Expected either a custom element with astroSwiper property or a <div/> containing such an element.`
+  );
+
   return undefined;
 }
