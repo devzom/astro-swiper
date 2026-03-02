@@ -27,6 +27,7 @@
     "pnpm": ">=10.30.3",
     "node": ">=22"
   },
+  "packageManager": "pnpm@10.30.3", 
   "devDependencies": {
     "@biomejs/biome": "^2.4.4",
     "@types/node": "^24.11.0",
