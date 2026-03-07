@@ -1,6 +1,6 @@
 {
   "name": "astro-swiper",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "Astro component for swiper, dedicated to slider / carousel / photo swiper / slide, including thumbnails",
   "main": "index.js",
   "scripts": {
@@ -27,7 +27,7 @@
     "pnpm": ">=10.30.3",
     "node": ">=22"
   },
-  "packageManager": "pnpm@10.30.3", 
+  "packageManager": "pnpm@10.30.3",
   "devDependencies": {
     "@biomejs/biome": "^2.4.4",
     "@types/node": "^24.11.0",
