@@ -49,7 +49,7 @@ export { default as SwiperSlide } from './components/SwiperSlide.astro';
 export { default as SwiperWrapper } from './components/SwiperWrapper.astro';
 
 /** pointer to the swiper structure that was created using "new", even when not initialized */
-export class AstroSwiper extends HTMLElement {
+declare class AstroSwiper extends HTMLElement {
   astroSwiper: Swiper | undefined;
 }
 
