@@ -66,7 +66,7 @@ export function getSwiperFromUniqueClass(uniqueClass: string): Swiper | undefine
  */
 export function getSwiperFromUniqueSelector(uniqueSelector: string): Swiper | undefined {
   if (!/^[.#]/.test(uniqueSelector)) {
-    console.warn('Used selector doesn\'t contain class or ID selector sign');
+    console.warn("Used selector doesn't contain class or ID selector sign");
   }
 
   const element = document.querySelector(uniqueSelector);
@@ -86,7 +86,7 @@ export function getSwiperFromUniqueSelector(uniqueSelector: string): Swiper | un
 
   console.warn(
     `astro-swiper: element found with selector "${uniqueSelector}" but no swiper instance found. ` +
-    `Expected either a custom element with astroSwiper property or a <div/> containing such an element.`
+      `Expected either a custom element with astroSwiper property or a <div/> containing such an element.`,
   );
 
   return undefined;
