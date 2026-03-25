@@ -69,6 +69,7 @@ export interface AstroSwiperType extends HTMLAttributes<'div'> {
 export { default as Swiper } from './components/Swiper.astro';
 export { default as SwiperButtonNext } from './components/SwiperButtonNext.astro';
 export { default as SwiperButtonPrev } from './components/SwiperButtonPrev.astro';
+export { default as SwiperLazyPreloader } from './components/SwiperLazyPreloader.astro';
 export { default as SwiperPagination } from './components/SwiperPagination.astro';
 export { default as SwiperScrollbar } from './components/SwiperScrollbar.astro';
 export { default as SwiperSlide } from './components/SwiperSlide.astro';
