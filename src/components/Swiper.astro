@@ -69,12 +69,16 @@ const {
         delete _useDelaySwiper[delayedClass]; // remove it from the delayed list
         const delayedOptions = _useOptions[delayedClass];
         delayedOptions.thumbs = {
-          swiper: _useSwiper[delayedThumbClass],    // add the thumbnail swiper link to the options
+          swiper: _useSwiper[delayedThumbClass], // add the thumbnail swiper link to the options
           ...delayedOptions.thumbs,
         };
 
-        _createSwiperAndObserver(delayedClass, delayedOptions, (document.querySelector(`.${delayedClass}`) as AstroSwiper));
-        _useOptions[delayedClass] = delayedOptions;   // update the options with the thumbnail link
+        _createSwiperAndObserver(
+          delayedClass,
+          delayedOptions,
+          document.querySelector(`.${delayedClass}`) as AstroSwiper,
+        );
+        _useOptions[delayedClass] = delayedOptions; // update the options with the thumbnail link
       }
     });
   }
@@ -97,42 +101,43 @@ const {
 
   function _createObserver(uniqueClass: string, options: AstroSwiperOptions, element: AstroSwiper) {
     const observerOptions = options.astro?.intersectionObserver || {};
-    const observer = new IntersectionObserver(
-      (entries) => {
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        if (observerOptions?.initSwiper && !element.astroSwiper) {
+          _initSwiper(uniqueClass, options, element);
+          if (observerOptions?.disconnectOnInit) {
+            observer.disconnect();
+          }
+        }
+      }
+
+      const swiper = element?.astroSwiper;
+      if (!swiper) {
+        return;
+      }
+
+      if (observerOptions?.controlAutoplay && options.autoplay) {
         if (entries[0].isIntersecting) {
-          if (observerOptions?.initSwiper && !element.astroSwiper) {
-            _initSwiper(uniqueClass, options, element);
-            if (observerOptions?.disconnectOnInit) {
-              observer.disconnect();
-            }
-          }
+          swiper.autoplay.start();
+        } else {
+          swiper.autoplay.stop();
         }
-
-        const swiper = element?.astroSwiper
-        if (!swiper) {
-          return;
-        }
-
-        if (observerOptions?.controlAutoplay && options.autoplay) {
-          if (entries[0].isIntersecting) {
-            swiper.autoplay.start();
-          } else {
-            swiper.autoplay.stop();
-          }
-        }
-      },
-      observerOptions.options,
-    );
+      }
+    }, observerOptions.options);
 
     observer.observe(element);
-    window.addEventListener("unload", observer.disconnect);
+    window.addEventListener('unload', observer.disconnect);
   }
 
   // create the swiper and the observer
   // - init the swiper if it should not be done by the observer
   // - create the observer if required
-  function _createSwiperAndObserver(uniqueClass: string, options: AstroSwiperOptions, element: AstroSwiper) {
-    if (!(options.astro?.intersectionObserver?.initSwiper)) {
+  function _createSwiperAndObserver(
+    uniqueClass: string,
+    options: AstroSwiperOptions,
+    element: AstroSwiper,
+  ) {
+    if (!options.astro?.intersectionObserver?.initSwiper) {
       // create the swiper immediatly
       _initSwiper(uniqueClass, options, element);
     }

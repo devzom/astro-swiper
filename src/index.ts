@@ -7,7 +7,7 @@ import type { HTMLAttributes } from 'astro/types';
 /** Swiper options for the Astro component.
  * Basically the same as the original SwiperOptions, but extended
  * with new capabilities
-*/
+ */
 export interface AstroSwiperOptions extends SwiperOptions {
   /** options specific to astro-swiper component */
   astro?: {
@@ -25,10 +25,10 @@ export interface AstroSwiperOptions extends SwiperOptions {
       controlAutoplay?: boolean;
       /** options for the IntersectionObserver */
       options?: IntersectionObserverInit;
-    }
+    };
     /** TODO: uniqueClass and linkToThumbUniqueClass may be part of it */
-  }
-};
+  };
+}
 
 /** properties passed to the <Swiper> component
  * It extends a div (that is may have class, style,...), plus other attributes
