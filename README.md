@@ -1,7 +1,7 @@
 <div align="center" style="background-color: dark-grey; padding: 1rem;">
   <a href="https://swiperjs.com" target="_blank"><img width="70" width="auto" src="images/swiper-logo.svg"></a>
   <a href="https://astro.build/" target="_blank"><img height="68" width="auto" src="images/astro-logo.svg"></a>
-  
+
   # Astro Swiper
 
 > Astro Swiper - native component for [Swiper](https://github.com/nolimits4web/swiper).
@@ -74,7 +74,7 @@ You can also look at how others are using `astro-swiper` in public github repo:
 - the famous astro template [astroplate](https://github.com/zeon-studio/astroplate) in the
   [testominial section](https://zeon.studio/preview?project=astroplate)
   (cf. **_What Users Are Saying About Astroplate_**):
-  autoplay, pagination and breakpoints are used
+  autoplay, pagination and breakpoints are used.
 - the popular astro template [pinwheel-astro](https://github.com/themefisher/pinwheel-astro)
   is using `astro-swiper` in several places:
   [testimonial section](https://pinwheel-astro.vercel.app/),
@@ -91,14 +91,18 @@ You can also look at how others are using `astro-swiper` in public github repo:
   [main page](https://tf-bigspring-light-astro.vercel.app/) with customized pagination.
 - [Women Techmakers organized by GDG Madrid](https://github.com/wtmgdgmadrid/wtmgdgmadrid.github.io)
   is using pagination and autoplay at different places in their
-  [page](http://wtmgdgmadrid.github.io/)
+  [page](http://wtmgdgmadrid.github.io/).
 - [kando-menu](https://github.com/make-42/kando-menu.github.io) is using `astro-swiper`
-  with pagination, card effect, and coverflow effect as displayed in [kando.menu](https://kando.menu/)
-- [astroimagej](https://github.com/AstroImageJ/astroimagej) is using pagination with progress bar
+  with pagination, card effect, and coverflow effect as displayed in [kando.menu](https://kando.menu/).
+- [astroimagej](https://github.com/AstroImageJ/astroimagej) is using pagination with progress bar.
+- [rustdesk.com](https://github.com/rustdesk/doc.rustdesk.com) makes use of `<SwiperLazyPreloader/>`
+  to add a preloader element.
 - ... and many others such as
   [Cinerama](https://github.com/RaiderMr3003/Cinerama) and
   [pfm-landing-page](https://github.com/RichardAgain/pfm-landing-page)
-  using `astro-swiper` in the hero section
+  using `astro-swiper` in the hero section,
+  [folex-lite-astro](https://github.com/getastrothemes/folex-lite-astro)
+  using it in the portfolio page,...
 
 ## Help needed?
 
