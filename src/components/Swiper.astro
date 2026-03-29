@@ -13,13 +13,22 @@ const {
   class: className = null,
   linkToThumbUniqueClass = null,
   addDefaultClass = true,
-  useCustomElement = true,
   ...props
 } = Astro.props;
+
+// check for deprecated useCustomElement prop and set the options.astro.useCustomElement
+// option accordingly if not set, to keep legacy
+if ((options?.astro?.useCustomElement === undefined) && (Astro.props.useCustomElement === false)) {
+  if (!options.astro) {
+    options.astro = {};
+  }
+  options.astro.useCustomElement = false;
+}
+
 ---
 
 <!-- Slider main container -->{
-  useCustomElement ? (
+  (options?.astro?.useCustomElement !== false) ? (
     <astro-swiper
       data-options={JSON.stringify(options)}
       data-linktothumbuniqueclass={linkToThumbUniqueClass}

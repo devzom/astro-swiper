@@ -26,7 +26,15 @@ export interface AstroSwiperOptions extends SwiperOptions {
       /** options for the IntersectionObserver */
       options?: IntersectionObserverInit;
     };
-    /** TODO: uniqueClass and linkToThumbUniqueClass may be part of it */
+
+    /** useCustomElement, if true, the component will be rendered as a custom element, otherwise as a div.
+     * This option is true by default to keep legacy.
+     * It is there to be as close as possible to the original swiper structure, that is a div with class "swiper"
+     * and not a custom element.
+     * It is also to avoid issues with some swiper modules that are looking for the "swiper" class on the parent
+     * element, and not on the custom element.
+     */
+    useCustomElement?: boolean;
   };
 }
 
@@ -55,13 +63,7 @@ export interface AstroSwiperType extends HTMLAttributes<'div'> {
   /** add the default swiper class, true by default */
   addDefaultClass?: boolean;
 
-  /** useCustomElement, if true, the component will be rendered as a custom element, otherwise as a div.
-   * This option is true by default to keep legacy.
-   * It is there to be as close as possible to the original swiper structure, that is a div with class "swiper"
-   * and not a custom element.
-   * It is also to avoid issues with some swiper modules that are looking for the "swiper" class on the parent
-   * element, and not on the custom element.
-   */
+  /** @deprecated use astro.useCustomElement instead */
   useCustomElement?: boolean;
 }
 
