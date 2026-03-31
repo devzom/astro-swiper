@@ -52,10 +52,15 @@ if ((options?.astro?.useCustomElement === undefined) && (Astro.props.useCustomEl
 
 <script>
   import Swiper from 'swiper/bundle';
+  import { getSwiperFromUniqueSelector } from 'astro-swiper';
   import type { AstroSwiperOptions } from 'astro-swiper';
 
-  /** contains the swiper json object once created, for each uniqueClass */
-  const _useSwiper: { [uniqueClass: string]: Swiper } = {};
+  const getSwiperFromUniqueSelectorOptions = {
+    // to avoid warning when the swiper is not initialized yet, but will be in the future
+    // (for example when using thumbnails, the main swiper is created before the thumbnail
+    // swiper, so it is normal that it is not found at this moment)
+    mayBeUndefined: true,
+  }
 
   /** contains the option used when creating the swiper object for each uniqueClass */
   const _useOptions: { [uniqueClass: string]: AstroSwiperOptions } = {};
@@ -73,12 +78,13 @@ if ((options?.astro?.useCustomElement === undefined) && (Astro.props.useCustomEl
       // swiper of uniqueClass "delayedClass" is delayed because it needs the swiper of uniqueClass
       // "delayedThumbClass" to be created first
       const delayedThumbClass = _useDelaySwiper[delayedClass];
-      if (_useSwiper[delayedThumbClass]) {
+      const swiper = getSwiperFromUniqueSelector(`.${delayedThumbClass}`, getSwiperFromUniqueSelectorOptions);
+      if (swiper) {
         // the thumbnail swiper is created, we can create the swiper
         delete _useDelaySwiper[delayedClass]; // remove it from the delayed list
         const delayedOptions = _useOptions[delayedClass];
         delayedOptions.thumbs = {
-          swiper: _useSwiper[delayedThumbClass], // add the thumbnail swiper link to the options
+          swiper: swiper, // add the thumbnail swiper link to the options
           ...delayedOptions.thumbs,
         };
 
@@ -96,7 +102,6 @@ if ((options?.astro?.useCustomElement === undefined) && (Astro.props.useCustomEl
   // the autoplay may be stopped manually if it should be started by the observer
   function _initSwiper(uniqueClass: string, options: AstroSwiperOptions, element: AstroSwiper) {
     const swiper = new Swiper(`.${uniqueClass}`, options);
-    _useSwiper[uniqueClass] = swiper;
     element.astroSwiper = swiper;
 
     // stop the autoplay if it will be started by the observer
@@ -174,9 +179,9 @@ if ((options?.astro?.useCustomElement === undefined) && (Astro.props.useCustomEl
 
       // no thumbnail link, or link to thumbnail swiper already created,
       // the swiper can be created or not immediatly depending on the observer option
-      if (!linkToThumbUniqueClass || _useSwiper[linkToThumbUniqueClass]) {
+      if (!linkToThumbUniqueClass || getSwiperFromUniqueSelector(`.${linkToThumbUniqueClass}`, getSwiperFromUniqueSelectorOptions)) {
         if (linkToThumbUniqueClass) {
-          options.thumbs = { swiper: _useSwiper[linkToThumbUniqueClass], ...options.thumbs };
+          options.thumbs = { swiper: getSwiperFromUniqueSelector(`.${linkToThumbUniqueClass}`, getSwiperFromUniqueSelectorOptions), ...options.thumbs };
         }
         // create the swiper and the observer if needed
         _createSwiperAndObserver(uniqueClass, options, this);

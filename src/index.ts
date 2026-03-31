@@ -93,7 +93,7 @@ export function getSwiperFromUniqueClass(uniqueClass: string): Swiper | undefine
  * @example const swiper = getSwiperFromUniqueSelector('.my-unique-class')
  *          const swiper = getSwiperFromUniqueSelector('#my-unique-id')
  */
-export function getSwiperFromUniqueSelector(uniqueSelector: string): Swiper | undefined {
+export function getSwiperFromUniqueSelector(uniqueSelector: string, options?: { mayBeUndefined?: boolean }): Swiper | undefined {
   if (!/^[.#]/.test(uniqueSelector)) {
     console.warn("Used selector doesn't contain class or ID selector sign");
   }
@@ -113,10 +113,16 @@ export function getSwiperFromUniqueSelector(uniqueSelector: string): Swiper | un
   const childElement = element.firstElementChild as AstroSwiper;
   if (childElement?.astroSwiper) return childElement.astroSwiper;
 
-  console.warn(
-    `astro-swiper: element found with selector "${uniqueSelector}" but no swiper instance found. ` +
-      `Expected either a custom element with astroSwiper property or a <div/> containing such an element.`,
-  );
+  if (!options?.mayBeUndefined) {
+    // set options.mayBeUndefined to true to avoid this warning when the swiper is not initialized yet,
+    // but will be in the future:
+    // for example when using thumbnails, the main swiper is created before the thumbnail swiper,
+    // so it is normal that it is not found at this moment)
+    console.warn(
+      `astro-swiper: element found with selector "${uniqueSelector}" but no swiper instance found. ` +
+        `Expected either a custom element with astroSwiper property or a <div/> containing such an element.`,
+    );
+  }
 
   return undefined;
 }
