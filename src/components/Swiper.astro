@@ -93,7 +93,6 @@ if ((options?.astro?.useCustomElement === undefined) && (Astro.props.useCustomEl
           delayedOptions,
           document.querySelector(`.${delayedClass}`) as AstroSwiper,
         );
-        _useOptions[delayedClass] = delayedOptions; // update the options with the thumbnail link
       }
     });
   }
@@ -189,9 +188,8 @@ if ((options?.astro?.useCustomElement === undefined) && (Astro.props.useCustomEl
         // cannot create the swiper as the thumbnail swiper not created yet
         // is delayed until the thumbnail swiper is initialized.
         _useDelaySwiper[uniqueClass] = linkToThumbUniqueClass;
+        _useOptions[uniqueClass] = options;
       }
-
-      _useOptions[uniqueClass] = options;
     }
   }
 
