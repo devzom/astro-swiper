@@ -48,12 +48,6 @@ export interface AstroSwiperType extends HTMLAttributes<'div'> {
    */
   options?: AstroSwiperOptions;
 
-  /** unique class to be able to retrieve the swiper instance, if required
-   * Mandatory on thumbnail for example
-   * When undefined, an automatic unique class name is provided
-   */
-  uniqueClass?: string;
-
   /** a thumbnail slider is build, this parameter is provided on the main slider
    * (the one with big slides, not the one to track the progress) and equal
    * the unique class of the thumbnail slider
@@ -62,6 +56,9 @@ export interface AstroSwiperType extends HTMLAttributes<'div'> {
 
   /** add the default swiper class, true by default */
   addDefaultClass?: boolean;
+
+  /** @deprecated is not really usefull anymore. If a specific unique class (or id) is needed, add it as id or class directly */
+  uniqueClass?: string;
 
   /** @deprecated use astro.useCustomElement instead */
   useCustomElement?: boolean;

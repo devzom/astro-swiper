@@ -9,7 +9,7 @@ type Props = AstroSwiperType;
 
 const {
   options = {},
-  uniqueClass = `astro-swiper-${Math.random().toString(36).slice(2, 11)}`,
+  uniqueClass: uniqueClassDeprecated = null,    // remove it once deprecated uniqueClass prop is removed
   class: className = null,
   linkToThumbUniqueClass = null,
   addDefaultClass = true,
@@ -24,6 +24,9 @@ if ((options?.astro?.useCustomElement === undefined) && (Astro.props.useCustomEl
   }
   options.astro.useCustomElement = false;
 }
+
+// once uniqueClassDeprecated is removed, uniqueClass can be directly set to the generated unique class name
+const uniqueClass = uniqueClassDeprecated || `astro-swiper-${Math.random().toString(36).slice(2, 11)}`;
 
 ---
 
