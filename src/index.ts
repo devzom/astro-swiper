@@ -99,7 +99,7 @@ export function getSwiperFromUniqueClass(uniqueClass: string): Swiper | undefine
  * @example const swiper = getSwiperFromUniqueSelector('.my-unique-class')
  *          const swiper = getSwiperFromUniqueSelector('#my-unique-id')
  */
-export function getSwiperFromUniqueSelector(uniqueSelector: string, options?: { mayBeUndefined?: boolean }): Swiper | undefined {
+export function getSwiperFromUniqueSelector(uniqueSelector: selectorStringType, options?: { mayBeUndefined?: boolean }): Swiper | undefined {
   if (!/^[.#]/.test(uniqueSelector)) {
     console.warn("Used selector doesn't contain class or ID selector sign");
   }
