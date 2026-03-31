@@ -4,6 +4,9 @@
 import type { Swiper, SwiperOptions } from 'swiper/types';
 import type { HTMLAttributes } from 'astro/types';
 
+// type of a string that starts with a dot (class selector) or a hash (id selector), followed by any string
+export type selectorStringType = `.${string}` | `#${string}`;
+
 /** Swiper options for the Astro component.
  * Basically the same as the original SwiperOptions, but extended
  * with new capabilities
@@ -35,6 +38,14 @@ export interface AstroSwiperOptions extends SwiperOptions {
      * element, and not on the custom element.
      */
     useCustomElement?: boolean;
+
+    /** unique selector of the thumbnail swiper to link with, when using the thumbs module.
+     * when a thumbnail swiper is build, this parameter is provided on the main slider
+     * (the one with big slides, not the one to track the progress) and equal
+     * the unique selector of the thumbnail swiper (the one to track the progress).
+     * It is used to link the main swiper with the thumbnail swiper when using the thumbs module.
+     */
+    thumbSwiperUniqueSelector?: selectorStringType;
   };
 }
 
@@ -48,17 +59,15 @@ export interface AstroSwiperType extends HTMLAttributes<'div'> {
    */
   options?: AstroSwiperOptions;
 
-  /** a thumbnail slider is build, this parameter is provided on the main slider
-   * (the one with big slides, not the one to track the progress) and equal
-   * the unique class of the thumbnail slider
-   */
-  linkToThumbUniqueClass?: string;
-
   /** add the default swiper class, true by default */
   addDefaultClass?: boolean;
 
-  /** @deprecated is not really usefull anymore. If a specific unique class (or id) is needed, add it as id or class directly */
+  /** @deprecated is not really usefull anymore. If a specific unique class or id is needed,
+   * add it as an id or or a class directly */
   uniqueClass?: string;
+
+  /** @deprecated use astro.options.astro.thumbsSwiperUniqueSelector instead */
+  linkToThumbUniqueClass?: string;
 
   /** @deprecated use astro.useCustomElement instead */
   useCustomElement?: boolean;

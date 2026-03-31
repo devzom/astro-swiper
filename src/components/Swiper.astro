@@ -9,9 +9,9 @@ type Props = AstroSwiperType;
 
 const {
   options = {},
-  uniqueClass: uniqueClassDeprecated = null,    // remove it once deprecated uniqueClass prop is removed
+  uniqueClass: removedUniqueClass, // remove it once deprecated uniqueClass prop is removed
   class: className = null,
-  linkToThumbUniqueClass = null,
+  linkToThumbUniqueClass: removedLinkToThumbUniqueClass, // remove it once deprecated uniqueClass prop is removed
   addDefaultClass = true,
   ...props
 } = Astro.props;
@@ -25,8 +25,17 @@ if ((options?.astro?.useCustomElement === undefined) && (Astro.props.useCustomEl
   options.astro.useCustomElement = false;
 }
 
-// once uniqueClassDeprecated is removed, uniqueClass can be directly set to the generated unique class name
-const uniqueClass = uniqueClassDeprecated || `astro-swiper-${Math.random().toString(36).slice(2, 11)}`;
+// once Astro.props.uniqueClass is removed, uniqueClass can be directly set to the generated unique class name
+const uniqueClass = Astro.props.uniqueClass || `astro-swiper-${Math.random().toString(36).slice(2, 11)}`;
+
+// check for deprecated useCustomElement prop and set the options.astro.useCustomElement
+// option accordingly if not set, to keep legacy
+if ((options?.astro?.thumbSwiperUniqueSelector === undefined) && (Astro.props.linkToThumbUniqueClass)) {
+  if (!options.astro) {
+    options.astro = {};
+  }
+  options.astro.thumbSwiperUniqueSelector = `.${Astro.props.linkToThumbUniqueClass}`;
+}
 
 ---
 
@@ -34,7 +43,6 @@ const uniqueClass = uniqueClassDeprecated || `astro-swiper-${Math.random().toStr
   (options?.astro?.useCustomElement !== false) ? (
     <astro-swiper
       data-options={JSON.stringify(options)}
-      data-linktothumbuniqueclass={linkToThumbUniqueClass}
       data-uniqueclass={uniqueClass}
       class:list={[addDefaultClass ? 'swiper' : null, uniqueClass, className]}
       {...props}
@@ -45,7 +53,6 @@ const uniqueClass = uniqueClassDeprecated || `astro-swiper-${Math.random().toStr
     <div class:list={[addDefaultClass ? 'swiper' : null, uniqueClass, className]} {...props}>
       <astro-swiper
         data-options={JSON.stringify(options)}
-        data-linktothumbuniqueclass={linkToThumbUniqueClass}
         data-uniqueclass={uniqueClass}
       />
       <slot />
@@ -56,7 +63,7 @@ const uniqueClass = uniqueClassDeprecated || `astro-swiper-${Math.random().toStr
 <script>
   import Swiper from 'swiper/bundle';
   import { getSwiperFromUniqueSelector } from 'astro-swiper';
-  import type { AstroSwiperOptions } from 'astro-swiper';
+  import type { AstroSwiperOptions, selectorStringType } from 'astro-swiper';
 
   const getSwiperFromUniqueSelectorOptions = {
     // to avoid warning when the swiper is not initialized yet, but will be in the future
@@ -65,36 +72,36 @@ const uniqueClass = uniqueClassDeprecated || `astro-swiper-${Math.random().toStr
     mayBeUndefined: true,
   }
 
-  /** contains the option used when creating the swiper object for each uniqueClass */
-  const _useOptions: { [uniqueClass: string]: AstroSwiperOptions } = {};
+  /** contains the option used when creating the swiper object for each uniqueSelector */
+  const _useOptions: { [uniqueSelector: string]: AstroSwiperOptions } = {};
 
-  /** contains all the uniqueClass that have their swiper object delayed because the
+  /** contains all the uniqueSelector that have their swiper object delayed because the
    * related thumbnail swiper is not created yet
-   * For each uniqueClass, is equal to the thumbnail slider uniqueClass
+   * For each uniqueSelector, is equal to the thumbnail slider uniqueSelector
    */
-  const _useDelaySwiper: { [uniqueClass: string]: string } = {};
+  const _useDelaySwiper: { [uniqueSelector: string]: string } = {};
 
   // Init swipers that have delayed initialization because the thumbnail swiper is not created yet
   // If this is now the case, then it is intialized, as well as its observer if needed
   function _initDelayedSwipers() {
-    Object.keys(_useDelaySwiper).forEach((delayedClass) => {
-      // swiper of uniqueClass "delayedClass" is delayed because it needs the swiper of uniqueClass
-      // "delayedThumbClass" to be created first
-      const delayedThumbClass = _useDelaySwiper[delayedClass];
-      const swiper = getSwiperFromUniqueSelector(`.${delayedThumbClass}`, getSwiperFromUniqueSelectorOptions);
+    Object.keys(_useDelaySwiper).forEach((delayedSelector) => {
+      // swiper of uniqueSelector "delayedSelector" is delayed because it needs the swiper of uniqueSelector
+      // "delayedThumbSelector" to be created first
+      const delayedThumbSelector = _useDelaySwiper[delayedSelector];
+      const swiper = getSwiperFromUniqueSelector(delayedThumbSelector, getSwiperFromUniqueSelectorOptions);
       if (swiper) {
         // the thumbnail swiper is created, we can create the swiper
-        delete _useDelaySwiper[delayedClass]; // remove it from the delayed list
-        const delayedOptions = _useOptions[delayedClass];
+        delete _useDelaySwiper[delayedSelector]; // remove it from the delayed list
+        const delayedOptions = _useOptions[delayedSelector];
         delayedOptions.thumbs = {
           swiper: swiper, // add the thumbnail swiper link to the options
           ...delayedOptions.thumbs,
         };
 
         _createSwiperAndObserver(
-          delayedClass,
+          delayedSelector,
           delayedOptions,
-          document.querySelector(`.${delayedClass}`) as AstroSwiper,
+          document.querySelector(delayedSelector) as AstroSwiper,
         );
       }
     });
@@ -102,8 +109,8 @@ const uniqueClass = uniqueClassDeprecated || `astro-swiper-${Math.random().toStr
 
   // initialize the swiper instance
   // the autoplay may be stopped manually if it should be started by the observer
-  function _initSwiper(uniqueClass: string, options: AstroSwiperOptions, element: AstroSwiper) {
-    const swiper = new Swiper(`.${uniqueClass}`, options);
+  function _initSwiper(uniqueSelector: selectorStringType, options: AstroSwiperOptions, element: AstroSwiper) {
+    const swiper = new Swiper(uniqueSelector, options);
     element.astroSwiper = swiper;
 
     // stop the autoplay if it will be started by the observer
@@ -115,12 +122,12 @@ const uniqueClass = uniqueClassDeprecated || `astro-swiper-${Math.random().toStr
     return swiper;
   }
 
-  function _createObserver(uniqueClass: string, options: AstroSwiperOptions, element: AstroSwiper) {
+  function _createObserver(uniqueSelector: selectorStringType, options: AstroSwiperOptions, element: AstroSwiper) {
     const observerOptions = options.astro?.intersectionObserver || {};
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
         if (observerOptions?.initSwiper && !element.astroSwiper) {
-          _initSwiper(uniqueClass, options, element);
+          _initSwiper(uniqueSelector, options, element);
           if (observerOptions?.disconnectOnInit) {
             observer.disconnect();
           }
@@ -149,18 +156,18 @@ const uniqueClass = uniqueClassDeprecated || `astro-swiper-${Math.random().toStr
   // - init the swiper if it should not be done by the observer
   // - create the observer if required
   function _createSwiperAndObserver(
-    uniqueClass: string,
+    uniqueSelector: selectorStringType,
     options: AstroSwiperOptions,
     element: AstroSwiper,
   ) {
     if (!options.astro?.intersectionObserver?.initSwiper) {
       // create the swiper immediatly
-      _initSwiper(uniqueClass, options, element);
+      _initSwiper(uniqueSelector, options, element);
     }
 
     // create the observer. It may init the swiper
     if (options.astro?.intersectionObserver) {
-      _createObserver(uniqueClass, options, element);
+      _createObserver(uniqueSelector, options, element);
     }
   }
 
@@ -176,22 +183,22 @@ const uniqueClass = uniqueClassDeprecated || `astro-swiper-${Math.random().toStr
       // Read the message from the data attribute.
       const options: AstroSwiperOptions = JSON.parse(this.dataset.options || '{}');
       // to have more than 1 swiper in a single page
-      const uniqueClass = this.dataset.uniqueclass || '';
-      const linkToThumbUniqueClass = this.dataset.linktothumbuniqueclass || '';
+      const uniqueSelector: selectorStringType = `.${this.dataset.uniqueclass}`;
+      const thumbSwiperUniqueSelector = options.astro?.thumbSwiperUniqueSelector;
 
       // no thumbnail link, or link to thumbnail swiper already created,
       // the swiper can be created or not immediatly depending on the observer option
-      if (!linkToThumbUniqueClass || getSwiperFromUniqueSelector(`.${linkToThumbUniqueClass}`, getSwiperFromUniqueSelectorOptions)) {
-        if (linkToThumbUniqueClass) {
-          options.thumbs = { swiper: getSwiperFromUniqueSelector(`.${linkToThumbUniqueClass}`, getSwiperFromUniqueSelectorOptions), ...options.thumbs };
+      if (!thumbSwiperUniqueSelector || getSwiperFromUniqueSelector(thumbSwiperUniqueSelector, getSwiperFromUniqueSelectorOptions)) {
+        if (thumbSwiperUniqueSelector) {
+          options.thumbs = { swiper: getSwiperFromUniqueSelector(thumbSwiperUniqueSelector, getSwiperFromUniqueSelectorOptions), ...options.thumbs };
         }
         // create the swiper and the observer if needed
-        _createSwiperAndObserver(uniqueClass, options, this);
+        _createSwiperAndObserver(uniqueSelector, options, this);
       } else {
         // cannot create the swiper as the thumbnail swiper not created yet
         // is delayed until the thumbnail swiper is initialized.
-        _useDelaySwiper[uniqueClass] = linkToThumbUniqueClass;
-        _useOptions[uniqueClass] = options;
+        _useDelaySwiper[uniqueSelector] = thumbSwiperUniqueSelector;
+        _useOptions[uniqueSelector] = options;
       }
     }
   }
