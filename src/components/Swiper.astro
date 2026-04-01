@@ -62,8 +62,8 @@ if ((options?.astro?.thumbSwiperUniqueSelector === undefined) && (Astro.props.li
 
 <script>
   import Swiper from 'swiper/bundle';
-  import { getSwiperFromUniqueSelector } from 'astro-swiper';
-  import type { AstroSwiperOptions, selectorStringType } from 'astro-swiper';
+  import { getSwiperFromUniqueSelector } from '../index';
+  import type { AstroSwiperOptions, selectorStringType } from '../index';
 
   const getSwiperFromUniqueSelectorOptions = {
     // to avoid warning when the swiper is not initialized yet, but will be in the future
