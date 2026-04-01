@@ -18,7 +18,7 @@ const {
 
 // check for deprecated useCustomElement prop and set the options.astro.useCustomElement
 // option accordingly if not set, to keep legacy
-if ((options?.astro?.useCustomElement === undefined) && (Astro.props.useCustomElement === false)) {
+if (options?.astro?.useCustomElement === undefined && Astro.props.useCustomElement === false) {
   if (!options.astro) {
     options.astro = {};
   }
@@ -26,21 +26,21 @@ if ((options?.astro?.useCustomElement === undefined) && (Astro.props.useCustomEl
 }
 
 // once Astro.props.uniqueClass is removed, uniqueClass can be directly set to the generated unique class name
-const uniqueClass = Astro.props.uniqueClass || `astro-swiper-${Math.random().toString(36).slice(2, 11)}`;
+const uniqueClass =
+  Astro.props.uniqueClass || `astro-swiper-${Math.random().toString(36).slice(2, 11)}`;
 
 // check for deprecated useCustomElement prop and set the options.astro.useCustomElement
 // option accordingly if not set, to keep legacy
-if ((options?.astro?.thumbSwiperUniqueSelector === undefined) && (Astro.props.linkToThumbUniqueClass)) {
+if (options?.astro?.thumbSwiperUniqueSelector === undefined && Astro.props.linkToThumbUniqueClass) {
   if (!options.astro) {
     options.astro = {};
   }
   options.astro.thumbSwiperUniqueSelector = `.${Astro.props.linkToThumbUniqueClass}`;
 }
-
 ---
 
 <!-- Slider main container -->{
-  (options?.astro?.useCustomElement !== false) ? (
+  options?.astro?.useCustomElement !== false ? (
     <astro-swiper
       data-options={JSON.stringify(options)}
       data-uniqueclass={uniqueClass}
@@ -51,10 +51,7 @@ if ((options?.astro?.thumbSwiperUniqueSelector === undefined) && (Astro.props.li
     </astro-swiper>
   ) : (
     <div class:list={[addDefaultClass ? 'swiper' : null, uniqueClass, className]} {...props}>
-      <astro-swiper
-        data-options={JSON.stringify(options)}
-        data-uniqueclass={uniqueClass}
-      />
+      <astro-swiper data-options={JSON.stringify(options)} data-uniqueclass={uniqueClass} />
       <slot />
     </div>
   )
@@ -70,7 +67,7 @@ if ((options?.astro?.thumbSwiperUniqueSelector === undefined) && (Astro.props.li
     // (for example when using thumbnails, the main swiper is created before the thumbnail
     // swiper, so it is normal that it is not found at this moment)
     mayBeUndefined: true,
-  }
+  };
 
   /** contains the option used when creating the swiper object for each uniqueSelector */
   const _useOptions: { [uniqueSelector: string]: AstroSwiperOptions } = {};
@@ -88,7 +85,10 @@ if ((options?.astro?.thumbSwiperUniqueSelector === undefined) && (Astro.props.li
       // swiper of uniqueSelector "delayedSelector" is delayed because it needs the swiper of uniqueSelector
       // "delayedThumbSelector" to be created first
       const delayedThumbSelector = _useDelaySwiper[delayedSelector];
-      const swiper = getSwiperFromUniqueSelector(delayedThumbSelector, getSwiperFromUniqueSelectorOptions);
+      const swiper = getSwiperFromUniqueSelector(
+        delayedThumbSelector,
+        getSwiperFromUniqueSelectorOptions,
+      );
       if (swiper) {
         // the thumbnail swiper is created, we can create the swiper
         delete _useDelaySwiper[delayedSelector]; // remove it from the delayed list
@@ -109,7 +109,11 @@ if ((options?.astro?.thumbSwiperUniqueSelector === undefined) && (Astro.props.li
 
   // initialize the swiper instance
   // the autoplay may be stopped manually if it should be started by the observer
-  function _initSwiper(uniqueSelector: selectorStringType, options: AstroSwiperOptions, element: AstroSwiper) {
+  function _initSwiper(
+    uniqueSelector: selectorStringType,
+    options: AstroSwiperOptions,
+    element: AstroSwiper,
+  ) {
     const swiper = new Swiper(uniqueSelector, options);
     element.astroSwiper = swiper;
 
@@ -122,7 +126,11 @@ if ((options?.astro?.thumbSwiperUniqueSelector === undefined) && (Astro.props.li
     return swiper;
   }
 
-  function _createObserver(uniqueSelector: selectorStringType, options: AstroSwiperOptions, element: AstroSwiper) {
+  function _createObserver(
+    uniqueSelector: selectorStringType,
+    options: AstroSwiperOptions,
+    element: AstroSwiper,
+  ) {
     const observerOptions = options.astro?.intersectionObserver || {};
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
@@ -188,9 +196,18 @@ if ((options?.astro?.thumbSwiperUniqueSelector === undefined) && (Astro.props.li
 
       // no thumbnail link, or link to thumbnail swiper already created,
       // the swiper can be created or not immediatly depending on the observer option
-      if (!thumbSwiperUniqueSelector || getSwiperFromUniqueSelector(thumbSwiperUniqueSelector, getSwiperFromUniqueSelectorOptions)) {
+      if (
+        !thumbSwiperUniqueSelector ||
+        getSwiperFromUniqueSelector(thumbSwiperUniqueSelector, getSwiperFromUniqueSelectorOptions)
+      ) {
         if (thumbSwiperUniqueSelector) {
-          options.thumbs = { swiper: getSwiperFromUniqueSelector(thumbSwiperUniqueSelector, getSwiperFromUniqueSelectorOptions), ...options.thumbs };
+          options.thumbs = {
+            swiper: getSwiperFromUniqueSelector(
+              thumbSwiperUniqueSelector,
+              getSwiperFromUniqueSelectorOptions,
+            ),
+            ...options.thumbs,
+          };
         }
         // create the swiper and the observer if needed
         _createSwiperAndObserver(uniqueSelector, options, this);
