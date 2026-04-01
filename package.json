@@ -18,7 +18,7 @@
   "bugs": {
     "url": "https://github.com/pascal-brand38/astro-swiper/issues"
   },
-  "homepage": "https://github.com/pascal-brand38/astro-swiper",
+  "homepage": "https://pascal-brand38.github.io/astro-dev/packages/astro-swiper/",
   "exports": {
     ".": {
       "types": "./index.ts",
